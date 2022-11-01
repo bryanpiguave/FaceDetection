@@ -40,3 +40,7 @@ Makefile
 
 #xml
 *.xml
+
+#blob
+*.png
+*.jpg
