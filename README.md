@@ -4,6 +4,7 @@ The purpose of this project is
 to use traditional computer vision methods
 to detect a face on a video stream or a photo
 
+![image](https://imgur.com/a/87GUF5c)]
 # Setup
 
 Download the classifier 
