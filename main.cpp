@@ -8,7 +8,6 @@
 
 int main(int argc, char **argv){
     cv::Mat img;
-    cv::VideoCapture cap(0);
 
     cv::CascadeClassifier faceCascade;
     faceCascade.load("frontalface.xml");
@@ -17,7 +16,21 @@ int main(int argc, char **argv){
     if (faceCascade.empty()){
         std::cout << "file not headed" << std::endl;
     }
-    while (true){
+    if (argc==2){
+        std::string path = argv[1];
+        img = cv::imread(path);
+        std::vector<cv::Rect> faces;
+        faceCascade.detectMultiScale(img,faces,1.1,10);
+        for(int i=0;i<faces.size();i++){
+            cv::rectangle(img,faces[i].tl(),faces[i].br(),cv::Scalar(255,0,255),4);
+        }
+        cv::resize(img,img,cv::Size(), 0.5, 0.5);
+        cv::imshow("Detection",img);
+        cv::waitKey(0);
+    }
+    else{
+        cv::VideoCapture cap(0);
+        while (true){
         cap.read(img);
 
         std::vector<cv::Rect> faces;
@@ -27,6 +40,8 @@ int main(int argc, char **argv){
         }
         cv::imshow("Detection",img);
         cv::waitKey(1);
+        }
     }
+    
     return 0;
 }
