@@ -12,17 +12,28 @@ inline bool exists_file (const std::string& name) {
         return (stat (name.c_str(), &buffer) == 0); 
         }
 
-int main(int argc, char **argv){
+int main(int argc, const char **argv){
+    cv::CommandLineParser parser(argc,argv,"{help h||}"
+                                "{img_path||}");
+
+    parser.about( "\nThis program demonstrates using the cv::CascadeClassifier class to detect objects (Face + eyes) in a video stream.\n");
+    parser.printMessage();
     cv::Mat img;
     bool exists;
-    cv::CascadeClassifier faceCascade;
+    cv::CascadeClassifier faceCascade,eyesCascade;
     faceCascade.load("frontalface.xml");
-    
+    eyesCascade.load("eyedetector.xml");
+       
 
     if (faceCascade.empty()){
-        std::cout << "file not headed" << std::endl;
+        std::cout << "Error, face detector model not found" << std::endl;
         return -1;
     }
+    if (eyesCascade.empty()){
+        std::cout <<"Error, eye detector model not found" << std::endl;
+        return -1;
+    }
+
     if (argc==2){
         std::string path = argv[1];
         /// Checking if file exists 
@@ -48,9 +59,20 @@ int main(int argc, char **argv){
         cap.read(img);
 
         std::vector<cv::Rect> faces;
+
         faceCascade.detectMultiScale(img,faces,1.1,10);
         for(int i=0;i<faces.size();i++){
-            cv::rectangle(img,faces[i].tl(),faces[i].br(),cv::Scalar(255,0,255),4);
+            cv::rectangle(img,faces[i].tl(),faces[i].br(),cv::Scalar(255,0,0),3);
+            cv::Mat faceROI = img(faces[i]);
+        
+            //-- In each face, detect eyes
+            std::vector<cv::Rect> eyes;
+            eyesCascade.detectMultiScale( faceROI, eyes );
+            for ( size_t j = 0; j < eyes.size(); j++ )
+            {
+                cv::Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
+                int radius = cvRound( (eyes[j].width + eyes[j].height)*0.15 );
+                circle( img, eye_center, radius, cv::Scalar( 255, 0, 0 ), 2 );            }
         }
         cv::imshow("Detection",img);
         cv::waitKey(1);
