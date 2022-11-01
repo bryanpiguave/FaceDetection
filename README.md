@@ -6,7 +6,9 @@ in [Rapid Object Detection using a Boosted Cascade of Simple
 Features](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
 to detect a face on a video stream or a photo
 
-![image](https://i.imgur.com/iUQSLm2.png)
+
+<img src="https://i.imgur.com/iUQSLm2.png" alt="image" width="50%" margin-left="auto" margin-right="auto" display="block"/>
+
 # Setup
 
 Download the classifier 
