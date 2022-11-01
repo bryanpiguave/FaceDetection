@@ -1,7 +1,9 @@
 # FaceDetection
 
 The purpose of this project is
-to use traditional computer vision methods
+to use the Cascade Classifier proposed by Paul Viola and Michael Jones 
+in [Rapid Object Detection using a Boosted Cascade of Simple
+Features](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
 to detect a face on a video stream or a photo
 
 ![image](https://i.imgur.com/iUQSLm2.png)
